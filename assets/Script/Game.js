@@ -21,7 +21,8 @@ cc.Class({
             default: null,
             type: cc.Prefab,
             displayName: '鱼的预制资源'
-        }
+        },
+        timeFish:0
 
     },
 
@@ -34,7 +35,10 @@ cc.Class({
         conf.FishNodePool = this.fnInitNodePool(conf.FishNum, this.Fish);
         console.log(conf.FishnetNodePool);
 
+        // 开启物理碰撞
         cc.director.getCollisionManager().enabled=true;
+
+        // 开启
         // cc.director.getCollisionManager().enabledDebugDraw=true;
     },
     // 初始化对象池
@@ -53,39 +57,49 @@ cc.Class({
     },
 
     start() {
-
+        cc.director.setDisplayStats(false)
     },
     fnClickAnimation(e) {
         console.log('我发射了渔网');
     },
     fnCreateFish() {
-        console.log(conf.FishNodePool._pool.length);
+        // console.log(conf.FishNodePool._pool.length);
 
         let target = conf.FishNodePool.get(),
             winSize = cc.winSize,
-            x = DBU.getRandomIntInclusive(0, 1) === 1 ? parseInt(winSize.width) : -parseInt(winSize.width);
-        // y=DBU.fnRandomNum()
+            x = DBU.getRandomIntInclusive(0, 1) === 1 ? parseInt(winSize.width+target.width) : -parseInt(winSize.width),
+        y=DBU.getRandomIntInclusive(-winSize.height+target.height,winSize.height-target.height);
         // ;
+        // console.log('y');
+        
         target.inX = x;
         target.parent = cc.find('Canvas/FishBox');
         target.setPosition(x, 12);
-        let act=cc.moveTo(DBU.getRandFload(30, 40),x>0?-x:Math.abs(x),DBU.getRandomIntInclusive(-winSize.height,winSize.height)) ;
+        // if( target.inX>0) target.rotation=180;
+        target.inX>0?target.rotation=180:target.rotation=360;
+        let c=x>0?(-x-target.width):Math.abs(x)+target.width;
+        let act=cc.moveTo(DBU.getRandFload(25,35),c,y);
+        if (c<winSize.width/2||c>(-winSize.width/2)) {
+        console.log(c,y);
+        }
+        
         target.runAction(act)
-        // console.log(DBU);
-        // let c = DBU.getRandomIntInclusive(0, 1);
 
-        // console.log(c, c == 1);
 
     },
     update(dt) {
-        
+this.timeFish+=dt;        
         // console.log(dt);
         
         let length = cc.find('Canvas/FishBox').children.length;
         if (length < 30) {
             // 
-            console.log('没有小鱼了')
-            this.fnCreateFish();
+            // console.log('没有小鱼了')
+            if (this.timeFish>0.5) {
+                this.timeFish=0;
+                this.fnCreateFish();
+                
+            }
         }
     }
 });

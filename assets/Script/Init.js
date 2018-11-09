@@ -31,7 +31,11 @@ cc.Class({
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad () {
+        // 启用物理引擎相关功能  
+cc.director.getPhysicsManager().enabled = true;  
+ this.linearVelocity = 80
+    },
 
     start () {
 

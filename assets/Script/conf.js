@@ -1,6 +1,6 @@
 window.conf={
     FishNodePool:null,
-    FishNum: 30,
+    FishNum: 40,
     FishnetNodePool:null,
     FishnetNum:20,
 }

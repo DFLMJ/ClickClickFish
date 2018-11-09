@@ -27,37 +27,82 @@ cc.Class({
         //         this._bar = value;
         //     }
         // },
+        selfX: 0,
+        selfY: 0,
     },
 
     // LIFE-CYCLE CALLBACKS:
 
-    // onLoad () {},
+    onLoad() {
+        // 启用物理引擎相关功能  
+        cc.director.getPhysicsManager().enabled = true;
+    },
 
-    start () {
+    start() {
 
     },
-    
+
     fnClickfish(e) {
         console.log('你点中了');
         // 回收小鱼
         conf.FishNodePool.put(e.target);
     },
     // 碰撞开始前
-    onCollisionEnter(other,self){
-        let otherName=other.node.name;
-        console.log('发生了碰撞',otherName,other,self);
-        
+    onCollisionEnter(other, self) {
+        this.selfX = other.node.x;
+        this.selfY = other.node.y;
+        let otherName = other.node.name;
+        // console.log('发生了碰撞', otherName);
+
     },
+    onCollisionExit: function (other, self) {
+        // if (this.selfX < self.node.x) {
+        //     // console.log('向右');
+        //     if (other.node.name == 'right') {
+        //         // 回收鱼放入对象池方便下次生成
+        //         conf.FishNodePool.put(self.node)
+        //         console.log('我已经回收了');
+
+        //     }
+        // } else {
+        //     if (other.node.name == 'left') {
+        //         // 回收鱼放入对象池方便下次生成
+        //         conf.FishNodePool.put(self.node)
+        //     }
+        // }
+        switch (other.node.name) {
+            case 'right':
+                if (this.selfX < self.node.x) {
+                    conf.FishNodePool.put(self.node)
+                }
+                break;
+                case 'left':
+                if (this.selfX > self.node.x) {
+                    conf.FishNodePool.put(self.node)
+                }
+                break;
+                case 'top':
+                case 'bottom':
+                    conf.FishNodePool.put(self.node);
+                break;
+
+            default:
+                break;
+        }
+
+        // console.log('碰撞结束', self.node.x, self.node.y);
+
+    }
 
     // update (dt) {
 
     //     if (this.node.inX>0) {
     //         console.log('我在右边',this.node.inX);
-            
+
     //     }else{
     //         console.log('我在左边');
-            
+
     //     }
-        
+
     // },
 });
