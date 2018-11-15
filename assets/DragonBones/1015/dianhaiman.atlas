@@ -1,0 +1,48 @@
+
+dianhaiman.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+qi
+  rotate: false
+  xy: 86, 16
+  size: 13, 15
+  orig: 13, 15
+  offset: 0, 0
+  index: -1
+sehnti
+  rotate: false
+  xy: 2, 33
+  size: 100, 29
+  orig: 100, 29
+  offset: 0, 0
+  index: -1
+shangqi
+  rotate: false
+  xy: 2, 6
+  size: 82, 25
+  orig: 82, 25
+  offset: 0, 0
+  index: -1
+xiaqi
+  rotate: false
+  xy: 104, 49
+  size: 59, 13
+  orig: 59, 13
+  offset: 0, 0
+  index: -1
+youyan
+  rotate: true
+  xy: 104, 36
+  size: 11, 15
+  orig: 11, 15
+  offset: 0, 0
+  index: -1
+zuoyan
+  rotate: true
+  xy: 86, 2
+  size: 12, 15
+  orig: 12, 15
+  offset: 0, 0
+  index: -1

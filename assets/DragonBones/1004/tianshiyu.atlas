@@ -1,0 +1,34 @@
+
+tianshiyu.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+houyuqi
+  rotate: false
+  xy: 2, 2
+  size: 7, 21
+  orig: 7, 21
+  offset: 0, 0
+  index: -1
+qianyuqi
+  rotate: false
+  xy: 114, 100
+  size: 11, 21
+  orig: 11, 21
+  offset: 0, 0
+  index: -1
+shenti
+  rotate: false
+  xy: 2, 47
+  size: 110, 74
+  orig: 110, 74
+  offset: 0, 0
+  index: -1
+shou
+  rotate: false
+  xy: 2, 25
+  size: 18, 20
+  orig: 18, 20
+  offset: 0, 0
+  index: -1

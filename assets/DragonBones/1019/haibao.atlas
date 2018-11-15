@@ -1,0 +1,34 @@
+
+haibao.png
+size: 256,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 2
+  size: 127, 108
+  orig: 127, 108
+  offset: 0, 0
+  index: -1
+hand h
+  rotate: true
+  xy: 175, 9
+  size: 34, 43
+  orig: 34, 43
+  offset: 0, 0
+  index: -1
+hand q
+  rotate: false
+  xy: 131, 3
+  size: 42, 40
+  orig: 42, 40
+  offset: 0, 0
+  index: -1
+weiba
+  rotate: false
+  xy: 131, 45
+  size: 94, 65
+  orig: 94, 65
+  offset: 0, 0
+  index: -1

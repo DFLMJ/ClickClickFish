@@ -1,0 +1,48 @@
+
+bianfuyu.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+chart_2/houyuqi_zi
+  rotate: false
+  xy: 75, 52
+  size: 13, 6
+  orig: 13, 6
+  offset: 0, 0
+  index: -1
+chart_2/shenti_zi
+  rotate: false
+  xy: 2, 94
+  size: 119, 32
+  orig: 119, 32
+  offset: 0, 0
+  index: -1
+chart_2/yuqi_zi
+  rotate: false
+  xy: 2, 31
+  size: 71, 27
+  orig: 71, 27
+  offset: 0, 0
+  index: -1
+houyuqi_huang
+  rotate: false
+  xy: 75, 44
+  size: 13, 6
+  orig: 13, 6
+  offset: 0, 0
+  index: -1
+shenti_huang
+  rotate: false
+  xy: 2, 60
+  size: 119, 32
+  orig: 119, 32
+  offset: 0, 0
+  index: -1
+yuqi_huang
+  rotate: false
+  xy: 2, 2
+  size: 71, 27
+  orig: 71, 27
+  offset: 0, 0
+  index: -1

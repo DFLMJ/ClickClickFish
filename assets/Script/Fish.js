@@ -12,21 +12,7 @@ cc.Class({
     extends: cc.Component,
 
     properties: {
-        // foo: {
-        //     // ATTRIBUTES:
-        //     default: null,        // The default value will be used only when the component attaching
-        //                           // to a node for the first time
-        //     type: cc.SpriteFrame, // optional, default is typeof default
-        //     serializable: true,   // optional, default is true
-        // },
-        // bar: {
-        //     get () {
-        //         return this._bar;
-        //     },
-        //     set (value) {
-        //         this._bar = value;
-        //     }
-        // },
+
         selfX: 0,
         selfY: 0,
     },
@@ -36,17 +22,19 @@ cc.Class({
     onLoad() {
         // 启用物理引擎相关功能  
         cc.director.getPhysicsManager().enabled = true;
+        // 监听点击事件
+        this.node.on('touchstart',(e)=>{
+            console.log('你点中了');
+            // 回收小鱼
+            this.put(this);
+        })
     },
 
     start() {
 
     },
 
-    fnClickfish(e) {
-        console.log('你点中了');
-        // 回收小鱼
-        conf.FishNodePool.put(e.target);
-    },
+    
     // 碰撞开始前
     onCollisionEnter(other, self) {
         this.selfX = other.node.x;
@@ -55,13 +43,22 @@ cc.Class({
         // console.log('发生了碰撞', otherName);
 
     },
+    // 回收节点
+    put: function (self) {
+        // 停止这个节点上的所有动画
+        self.node.stopAllActions();
+        // 将节点放入对象池
+        conf.FishNodePool.put(self.node);
+        console.log('进入回收');
+        
+    },
     onCollisionExit: function (other, self) {
         // if (this.selfX < self.node.x) {
         //     // console.log('向右');
         //     if (other.node.name == 'right') {
         //         // 回收鱼放入对象池方便下次生成
         //         conf.FishNodePool.put(self.node)
-        //         console.log('我已经回收了');
+                // console.log('我已经回收了');
 
         //     }
         // } else {
@@ -70,23 +67,27 @@ cc.Class({
         //         conf.FishNodePool.put(self.node)
         //     }
         // }
+console.log(other.node.name);
+
         switch (other.node.name) {
             case 'right':
                 if (this.selfX < self.node.x) {
-                    conf.FishNodePool.put(self.node)
+                    this.put(self);
                 }
                 break;
-                case 'left':
+            case 'left':
                 if (this.selfX > self.node.x) {
-                    conf.FishNodePool.put(self.node)
+                    this.put(self);
+                    
                 }
                 break;
-                case 'top':
-                case 'bottom':
-                    conf.FishNodePool.put(self.node);
+            case 'top':
+            case 'bottom':
+            this.put(self);
+                
                 break;
-
             default:
+                console.log('特殊');
                 break;
         }
 

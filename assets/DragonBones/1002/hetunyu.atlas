@@ -1,0 +1,27 @@
+
+hetunyu.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+houyuqi
+  rotate: false
+  xy: 104, 90
+  size: 16, 14
+  orig: 16, 14
+  offset: 0, 0
+  index: -1
+qianyuqi
+  rotate: false
+  xy: 2, 2
+  size: 18, 19
+  orig: 18, 19
+  offset: 0, 0
+  index: -1
+shenti
+  rotate: false
+  xy: 2, 23
+  size: 100, 81
+  orig: 100, 81
+  offset: 0, 0
+  index: -1

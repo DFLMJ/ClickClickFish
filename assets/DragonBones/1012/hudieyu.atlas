@@ -1,0 +1,76 @@
+
+hudieyu.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+houchibang
+  rotate: true
+  xy: 121, 31
+  size: 31, 53
+  orig: 31, 53
+  offset: 0, 0
+  index: -1
+houqi
+  rotate: false
+  xy: 121, 2
+  size: 12, 11
+  orig: 12, 11
+  offset: 0, 0
+  index: -1
+qianchibang
+  rotate: false
+  xy: 2, 7
+  size: 52, 55
+  orig: 52, 55
+  offset: 0, 0
+  index: -1
+qianqi
+  rotate: false
+  xy: 121, 15
+  size: 18, 14
+  orig: 18, 14
+  offset: 0, 0
+  index: -1
+shenti
+  rotate: false
+  xy: 56, 34
+  size: 63, 28
+  orig: 63, 28
+  offset: 0, 0
+  index: -1
+tou
+  rotate: false
+  xy: 86, 5
+  size: 33, 27
+  orig: 33, 27
+  offset: 0, 0
+  index: -1
+weiba
+  rotate: true
+  xy: 56, 2
+  size: 30, 28
+  orig: 30, 28
+  offset: 0, 0
+  index: -1
+youyan
+  rotate: false
+  xy: 194, 46
+  size: 14, 16
+  orig: 14, 16
+  offset: 0, 0
+  index: -1
+zhangzui
+  rotate: false
+  xy: 176, 34
+  size: 7, 9
+  orig: 7, 9
+  offset: 0, 0
+  index: -1
+zuoyan
+  rotate: false
+  xy: 176, 45
+  size: 16, 17
+  orig: 16, 17
+  offset: 0, 0
+  index: -1

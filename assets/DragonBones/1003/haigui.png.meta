@@ -1,0 +1,30 @@
+{
+  "ver": "1.0.0",
+  "uuid": "c1489690-f154-4e66-a2f3-419a1b3be453",
+  "type": "sprite",
+  "wrapMode": "clamp",
+  "filterMode": "bilinear",
+  "subMetas": {
+    "haigui": {
+      "ver": "1.0.3",
+      "uuid": "4e6dba82-024f-4ede-9e5c-a438d80faa02",
+      "rawTextureUuid": "c1489690-f154-4e66-a2f3-419a1b3be453",
+      "trimType": "custom",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 0,
+      "trimY": 0,
+      "width": 128,
+      "height": 64,
+      "rawWidth": 128,
+      "rawHeight": 64,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "subMetas": {}
+    }
+  }
+}

@@ -1,0 +1,55 @@
+
+bimuyu.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+qi
+  rotate: false
+  xy: 200, 43
+  size: 19, 14
+  orig: 19, 14
+  offset: 0, 0
+  index: -1
+shangqi
+  rotate: false
+  xy: 83, 31
+  size: 58, 26
+  orig: 58, 26
+  offset: 0, 0
+  index: -1
+shenti
+  rotate: false
+  xy: 2, 2
+  size: 79, 55
+  orig: 79, 55
+  offset: 0, 0
+  index: -1
+weiba
+  rotate: true
+  xy: 143, 37
+  size: 20, 29
+  orig: 20, 29
+  offset: 0, 0
+  index: -1
+xiaqi
+  rotate: false
+  xy: 83, 4
+  size: 43, 25
+  orig: 43, 25
+  offset: 0, 0
+  index: -1
+youyan
+  rotate: true
+  xy: 174, 39
+  size: 18, 24
+  orig: 18, 24
+  offset: 0, 0
+  index: -1
+zuoyan
+  rotate: false
+  xy: 128, 10
+  size: 8, 19
+  orig: 8, 19
+  offset: 0, 0
+  index: -1

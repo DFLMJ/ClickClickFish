@@ -1,0 +1,41 @@
+
+xiaohuangyu.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+houyuqi
+  rotate: true
+  xy: 104, 60
+  size: 18, 13
+  orig: 18, 13
+  offset: 0, 0
+  index: -1
+qianyuqi
+  rotate: false
+  xy: 74, 9
+  size: 25, 21
+  orig: 25, 21
+  offset: 0, 0
+  index: -1
+shangyuqi
+  rotate: false
+  xy: 2, 2
+  size: 70, 28
+  orig: 70, 28
+  offset: 0, 0
+  index: -1
+shenti
+  rotate: false
+  xy: 2, 32
+  size: 100, 84
+  orig: 100, 84
+  offset: 0, 0
+  index: -1
+yuqidi
+  rotate: true
+  xy: 104, 80
+  size: 36, 13
+  orig: 36, 13
+  offset: 0, 0
+  index: -1

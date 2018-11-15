@@ -1,0 +1,55 @@
+
+haitun.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+houqi
+  rotate: false
+  xy: 134, 38
+  size: 21, 14
+  orig: 21, 14
+  offset: 0, 0
+  index: -1
+qianqi
+  rotate: false
+  xy: 108, 35
+  size: 24, 17
+  orig: 24, 17
+  offset: 0, 0
+  index: -1
+shangqi
+  rotate: false
+  xy: 157, 42
+  size: 21, 10
+  orig: 21, 10
+  offset: 0, 0
+  index: -1
+shenti
+  rotate: false
+  xy: 2, 2
+  size: 82, 50
+  orig: 82, 50
+  offset: 0, 0
+  index: -1
+weiba
+  rotate: false
+  xy: 86, 24
+  size: 20, 28
+  orig: 20, 28
+  offset: 0, 0
+  index: -1
+youyan
+  rotate: false
+  xy: 86, 2
+  size: 14, 20
+  orig: 14, 20
+  offset: 0, 0
+  index: -1
+zuoyan
+  rotate: true
+  xy: 180, 41
+  size: 11, 20
+  orig: 11, 20
+  offset: 0, 0
+  index: -1

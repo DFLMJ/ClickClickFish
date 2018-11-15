@@ -1,0 +1,41 @@
+
+jingsha.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 2, 19
+  size: 99, 43
+  orig: 99, 43
+  offset: 0, 0
+  index: -1
+hand
+  rotate: false
+  xy: 2, 2
+  size: 27, 15
+  orig: 27, 15
+  offset: 0, 0
+  index: -1
+weiba
+  rotate: true
+  xy: 133, 36
+  size: 26, 27
+  orig: 26, 27
+  offset: 0, 0
+  index: -1
+yuqi
+  rotate: false
+  xy: 103, 36
+  size: 28, 26
+  orig: 28, 26
+  offset: 0, 0
+  index: -1
+yuqi2
+  rotate: false
+  xy: 31, 6
+  size: 18, 11
+  orig: 18, 11
+  offset: 0, 0
+  index: -1

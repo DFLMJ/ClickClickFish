@@ -1,0 +1,41 @@
+
+hongshanyu.png
+size: 256,64
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+beiqi
+  rotate: false
+  xy: 113, 34
+  size: 40, 28
+  orig: 40, 28
+  offset: 0, 0
+  index: -1
+shenti
+  rotate: false
+  xy: 2, 15
+  size: 69, 47
+  orig: 69, 47
+  offset: 0, 0
+  index: -1
+weiba
+  rotate: false
+  xy: 73, 21
+  size: 38, 41
+  orig: 38, 41
+  offset: 0, 0
+  index: -1
+xiayuqi
+  rotate: false
+  xy: 155, 43
+  size: 38, 19
+  orig: 38, 19
+  offset: 0, 0
+  index: -1
+yuqi
+  rotate: false
+  xy: 73, 2
+  size: 20, 17
+  orig: 20, 17
+  offset: 0, 0
+  index: -1

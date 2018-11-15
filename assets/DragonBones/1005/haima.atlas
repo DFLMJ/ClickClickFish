@@ -1,0 +1,27 @@
+
+haima.png
+size: 128,128
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+shenti
+  rotate: false
+  xy: 2, 41
+  size: 61, 85
+  orig: 61, 85
+  offset: 0, 0
+  index: -1
+tou
+  rotate: false
+  xy: 2, 2
+  size: 51, 37
+  orig: 51, 37
+  offset: 0, 0
+  index: -1
+yuqi
+  rotate: false
+  xy: 65, 103
+  size: 31, 23
+  orig: 31, 23
+  offset: 0, 0
+  index: -1
