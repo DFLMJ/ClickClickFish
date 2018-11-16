@@ -32,8 +32,7 @@ cc.Class({
         // 初始化对象池
         for (let index = 1; index < 21; index++){
             const element = array[index];
-            conf[`fishLevel_${i}`]=this.fnInitNodePool(conf.fishArr[], this.Fishnet)
-1           
+            conf[`fishLevel_${i}`]=this.fnInitNodePool(conf.fishArr[index], this.Fishnet)      
         }
 
 
