@@ -85,6 +85,9 @@
     "_components": [
       {
         "__id__": 200
+      },
+      {
+        "__id__": 201
       }
     ],
     "_prefab": null,
@@ -386,7 +389,7 @@
       }
     ],
     "_tag": -1,
-    "_active": true,
+    "_active": false,
     "_components": [],
     "_prefab": null,
     "_id": "e4+haNq5tAA5oNbuoqKrrr",
@@ -5895,5 +5898,81 @@
     },
     "_fitWidth": false,
     "_fitHeight": true
+  },
+  {
+    "__type__": "74684QW0h9MnauL+Xu40IrD",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "Fishnet": null,
+    "Fish": [
+      {
+        "__uuid__": "2241c512-1025-4b43-8735-dc658198ada3"
+      },
+      {
+        "__uuid__": "25fd0ec5-ede1-4771-bb32-ef6d9e7d3348"
+      },
+      {
+        "__uuid__": "18d576cd-d4a0-4f58-b4a6-699155596546"
+      },
+      {
+        "__uuid__": "6f42ea61-6bd9-4e01-b3dd-bbda13eb4019"
+      },
+      {
+        "__uuid__": "bcbf9b63-8bd0-41fa-9064-6770a12636b0"
+      },
+      {
+        "__uuid__": "b4d38d95-8969-4137-836f-03cd2b51b7b9"
+      },
+      {
+        "__uuid__": "5cb2fc00-96ea-4e7f-8d85-2b515e7b2cdb"
+      },
+      {
+        "__uuid__": "9c7dde95-09d5-4c31-aa87-6f7244d41ddb"
+      },
+      {
+        "__uuid__": "a1826292-1ef1-4ae3-a2c8-6524681b8030"
+      },
+      {
+        "__uuid__": "ef6ad928-a759-4237-91e5-ed620eb07f0c"
+      },
+      {
+        "__uuid__": "599fd614-7318-4d18-8499-dcbbd0a03340"
+      },
+      {
+        "__uuid__": "f8befd27-2e7d-45d9-9028-beef2abf9585"
+      },
+      {
+        "__uuid__": "cc943ffe-afcd-4123-970e-c4878f46edd9"
+      },
+      {
+        "__uuid__": "6eb160b2-9edc-48e6-b485-4d60e35fef2a"
+      },
+      {
+        "__uuid__": "31eee0ab-3650-44dc-8b15-c3fecdf2058b"
+      },
+      {
+        "__uuid__": "ec48a6b2-7f8c-47b9-8e71-438089850d38"
+      },
+      {
+        "__uuid__": "ac60aab2-9322-4aea-a333-5142880ab2e9"
+      },
+      {
+        "__uuid__": "1880b8dc-25bf-4e4f-8759-eae4a669d702"
+      },
+      {
+        "__uuid__": "2657819b-6f73-40ee-b529-7294de2249b2"
+      },
+      {
+        "__uuid__": "698d5919-a956-4e9e-93d6-d715e23f9fa6"
+      },
+      {
+        "__uuid__": "d0e7a96c-6d78-44ff-8d44-30f2647c2407"
+      }
+    ],
+    "timeFish": 0
   }
 ]

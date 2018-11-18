@@ -24,6 +24,9 @@ var DBUtility = {
     },
     getRandFload:function(min,max) {
         return parseFloat((Math.random()*(max-min)+min).toFixed(1))
+    },
+    Random: function(arr,Prob) {
+        
     }
 }
 
