@@ -25,8 +25,28 @@ var DBUtility = {
     getRandFload:function(min,max) {
         return parseFloat((Math.random()*(max-min)+min).toFixed(1))
     },
-    Random: function(arr,Prob) {
+    /**
+     * 获取随机概率情况下的结果
+     * @method getRandomProb
+     * @param {number} arr 随机概率对应的结果数组
+     * @param {number} Prob  存放随机概率的数组
+     * @returns {number} 返回随机数
+     */
+    getRandomProb: function(arr,Prob) {
+            var sum = 0,
+                factor = 0,
+                random = Math.random();
         
+            for(var i = Prob.length - 1; i >= 0; i--) {
+                sum += Prob[i]; // 统计概率总和
+            };
+            random *= sum; // 生成概率随机数
+            for(var i = Prob.length - 1; i >= 0; i--) {
+                factor += Prob[i];
+                if(random <= factor) 
+                  return arr[i];
+            };
+            return null;
     }
 }
 

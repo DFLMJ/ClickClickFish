@@ -22,7 +22,9 @@ cc.Class({
             type: cc.Prefab,
             displayName: '鱼的预制资源'
         },
-        timeFish: 0
+        timeFish: 0,
+        // 是否使用冰封万里的技能
+        SuspendAction:false
 
     },
 
@@ -30,18 +32,26 @@ cc.Class({
 
     onLoad() {
         // 初始化对象池
-        for (let index = 1; index < 21; index++){
-            const element = array[index];
-            conf[`fishLevel_${i}`]=this.fnInitNodePool(conf.fishArr[index], this.Fishnet)      
-        }
 
+        // let item = new cc.NodePool();
+        // // item.put(cc.instantiate(this.Fish[1]));
+        // console.log(item);
+
+
+        for (let index = 1; index <= this.Fish.length; index++) {
+            // console.log(this.Fish[index - 1]);
+
+            // 赋值对象池
+            conf[`fishLevel_${index}`] = this.fnInitNodePool(conf.fishArr[index - 1], this.Fish[index - 1], conf[`fishLevel_${index}`])
+        }
+        // console.log(this.fnGetFishRandomNum(),'op');
 
 
 
         // 初始化渔网的对象池
-        conf.FishnetNodePool = this.fnInitNodePool(conf.FishnetNum, this.Fishnet);
+        conf.FishnetNodePool = this.fnInitNodePool(conf.FishnetNum, this.Fishnet, conf.FishnetNodePool);
         // 初始化鱼的对象池
-        conf.FishNodePool = this.fnInitNodePool(conf.FishNum, this.Fish);
+        // conf.FishNodePool = this.fnInitNodePool(conf.FishNum, this.Fish);
         // console.log(conf.FishnetNodePool);
 
         // 开启物理碰撞
@@ -49,11 +59,36 @@ cc.Class({
 
         // 开启
         // cc.director.getCollisionManager().enabledDebugDraw=true;
-    },
-    // 初始化对象池
-    fnInitNodePool(num, Pre) {
 
-        let nodes = new cc.NodePool();
+
+
+
+    },
+    // 停止所有动画并在5s后恢复
+    fnSuspendAction(e) {
+        console.log('点击了技能');
+        
+        // 变化标识符
+        this.SuspendAction=true;
+        // 获取
+        let ActionManager=cc.director.getActionManager();
+        cc.find('Canvas/FishBox').children.forEach(item => {
+            // 暂停鱼的动作
+            ActionManager.pauseTarget(item);
+            // 5s后恢复动作
+            setTimeout(()=>{
+                // 变化标识符
+                this.SuspendAction=false;
+                ActionManager.resumeTarget(item)
+            },conf.SuspendActionNum)
+        })
+    },
+
+    // 初始化对象池
+    fnInitNodePool(num, Pre, nodes) {
+        // 为nodes创建对象池
+        nodes = new cc.NodePool();
+        // 生成对象
         for (let index = 0; index < num; index++) {
 
             // 创建节点
@@ -61,7 +96,9 @@ cc.Class({
             // 放入对象池
             nodes.put(item);
         }
+        // console.log(num, nodes);
 
+        // 返回对象池
         return nodes;
     },
 
@@ -71,16 +108,39 @@ cc.Class({
     fnClickAnimation(e) {
         console.log('我发射了渔网');
     },
-    fnCreateFish() {
+    fnGetFishRandomNum() {
+        let nameArr = [];
+        this.Fish.forEach(element => {
+            nameArr.push(parseInt(element.data.name))
+        });
+        // console.log(nameArr);
+
+        return DBU.getRandomProb(nameArr, conf.fishProb);
+    },
+    // 生成小鱼
+    fnCreateFish(num) {
         // console.log(conf.FishNodePool._pool.length);
         //获取对象池
-        let target = conf.FishNodePool.get(),
-            speed = DBU.getRandFload(15, 25),
-            // 获取设备屏幕大小
-            winSize = cc.winSize,
-            // 初始化预置点坐标
-            x = DBU.getRandomIntInclusive(0, 1) === 1 ? parseInt(winSize.width / 2 + target.width) : -parseInt(winSize.width / 2 + target.width),
-            y = DBU.getRandomIntInclusive(-winSize.height / 2 + target.height, winSize.height / 2 - target.height);
+        // console.log(num);
+        if (conf[`fishLevel_${num}`].get()) {
+            let item = cc.instantiate(this.Fish[num - 1]);
+            conf[`fishLevel_${num}`].put(item);
+        }
+
+        try {
+            var target = conf[`fishLevel_${num}`].get(),
+                speed = DBU.getRandFload(15, 25),
+                // 获取设备屏幕大小
+                winSize = cc.winSize,
+                // 初始化预置点坐标
+                x = DBU.getRandomIntInclusive(0, 1) === 1 ? parseInt(winSize.width / 2 + target.width) : -parseInt(winSize.width / 2 + target.width),
+                y = DBU.getRandomIntInclusive(-winSize.height / 2 + target.height, winSize.height / 2 - target.height);
+        } catch (error) {
+            console.log(error, num, '错误');
+
+        }
+
+
         // 设置鱼的游动动画速度
         target.getChildByName('fish').getComponent(sp.Skeleton).timeScale = speed * 0.12
         // 给预置点赋值新的初始坐标属性
@@ -100,13 +160,19 @@ cc.Class({
         // console.log('终点', x, c, y);
         // 创建动画
         let ay = DBU.getRandomIntInclusive(-winSize.height / 2 + target.height, winSize.height / 2 - target.height);
-        let act = cc.sequence(cc.moveTo(speed, c, ay), cc.callFunc(function () {
-            console.log('执行完毕');
+        target.mjAct = cc.sequence(cc.moveTo(speed, c, ay), cc.callFunc(function () {
+            // console.log('执行完毕');
 
         }, this));
+
+
         // 运行动画
-        target.runAction(act)
-      
+        target.runAction(target.mjAct);
+        // 判断是否使用冰封万里技能，若是使用就暂停小鱼
+        if (this.SuspendAction) {
+            cc.director.getActionManager().pauseTarget(target);
+        }
+
 
 
 
@@ -117,11 +183,11 @@ cc.Class({
 
         let length = cc.find('Canvas/FishBox').children.length;
         if (length < conf.FishNum) {
-            // 
+
             // console.log('没有小鱼了')
             if (this.timeFish > 0.5) {
                 this.timeFish = 0;
-                this.fnCreateFish();
+                this.fnCreateFish(this.fnGetFishRandomNum());
 
             }
 

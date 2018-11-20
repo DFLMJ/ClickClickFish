@@ -1,12 +1,5 @@
-// Learn cc.Class:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/class.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/class.html
-// Learn Attribute:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/reference/attributes.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/reference/attributes.html
-// Learn life-cycle callbacks:
-//  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
-//  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
+// 导入插件
+let DBU = require('DBUtility');
 
 cc.Class({
     extends: cc.Component,
@@ -23,18 +16,43 @@ cc.Class({
         // 启用物理引擎相关功能  
         cc.director.getPhysicsManager().enabled = true;
         // 监听点击事件
-        this.node.on('touchstart',(e)=>{
-            console.log('你点中了');
-            // 回收小鱼
-            this.put(this);
-        })
+        let touchstartCall = (e) => {
+            // console.log('你点中了', conf.fishHit[parseInt(e.target.name)], e.target.name);
+
+            // 计算是否捕获
+            let res = DBU.getRandomProb([0, 1], [1 - conf.fishHit[parseInt(e.target.name)], conf.fishHit[parseInt(e.target.name)]]);
+            console.log(res, '你点中了', conf.fishHit[parseInt(e.target.name)], e.target.name);
+
+            // 捕获鱼之后就执行的效果
+            if (res) {
+                // 取消注册监听
+                e.target.off('touchstart', this.touchstartCall, this);
+                
+// 执行屏幕震动动画
+let camera=cc.find('camera'),Vibration=cc.sequence(cc.moveBy(0.2,30,-30),cc.moveBy(0.2,-60,60),cc.moveBy(0.2,30,-50),cc.moveBy(0.2,0,+20))
+camera.runAction(Vibration);
+                // 执行消失动作
+                let ActionManager = cc.director.getActionManager();
+                ActionManager.resumeTarget(e.target);
+                ActionManager.removeAllActionsFromTarget(e.target);
+
+                let act = cc.sequence(cc.blink(0.5, 10), cc.callFunc(() => {
+                    // 回收小鱼
+                    this.put(this);
+                }))
+                // 执行消失动画
+                e.target.runAction(act)
+
+            }
+
+        };
+        this.node.on('touchstart', touchstartCall, this);
     },
 
     start() {
-
     },
 
-    
+
     // 碰撞开始前
     onCollisionEnter(other, self) {
         this.selfX = other.node.x;
@@ -48,9 +66,10 @@ cc.Class({
         // 停止这个节点上的所有动画
         self.node.stopAllActions();
         // 将节点放入对象池
-        conf.FishNodePool.put(self.node);
+        conf[`fishLevel_${self.node.name}`].put(self.node)
+        // conf.FishNodePool.put();
         console.log('进入回收');
-        
+
     },
     onCollisionExit: function (other, self) {
         // if (this.selfX < self.node.x) {
@@ -58,7 +77,7 @@ cc.Class({
         //     if (other.node.name == 'right') {
         //         // 回收鱼放入对象池方便下次生成
         //         conf.FishNodePool.put(self.node)
-                // console.log('我已经回收了');
+        // console.log('我已经回收了');
 
         //     }
         // } else {
@@ -67,7 +86,7 @@ cc.Class({
         //         conf.FishNodePool.put(self.node)
         //     }
         // }
-console.log(other.node.name);
+        // console.log(other.node.name);
 
         switch (other.node.name) {
             case 'right':
@@ -78,13 +97,13 @@ console.log(other.node.name);
             case 'left':
                 if (this.selfX > self.node.x) {
                     this.put(self);
-                    
+
                 }
                 break;
             case 'top':
             case 'bottom':
-            this.put(self);
-                
+                this.put(self);
+
                 break;
             default:
                 console.log('特殊');
