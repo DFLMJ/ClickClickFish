@@ -22,9 +22,19 @@ cc.Class({
             type: cc.Prefab,
             displayName: '鱼的预制资源'
         },
+        background: {
+            default: null,
+            type: cc.Node,
+            displayName: '背景'
+        },
+        item: {
+            default: null,
+            type: cc.Node,
+            displayName: '测试点'
+        },
         timeFish: 0,
         // 是否使用冰封万里的技能
-        SuspendAction:false
+        SuspendAction: false
 
     },
 
@@ -59,28 +69,51 @@ cc.Class({
 
         // 开启
         // cc.director.getCollisionManager().enabledDebugDraw=true;
-
-
-
+        // 开启加速器事件监听
+        cc.systemEvent.setAccelerometerEnabled(true);
+        // 更改加速度计间隔值
+        cc.systemEvent.setAccelerometerInterval(1/ 60);
+        // 监听重力感应
+        cc.systemEvent.on(cc.SystemEvent.EventType.DEVICEMOTION, this.fnOnDeviceMotion, this)
+        // this.item.setPosition(20,400,-0.9);
 
     },
-    // 停止所有动画并在5s后恢复
+    // 重力感应函数
+    fnOnDeviceMotion(event) {
+        // console.log(1);
+
+        // console.log(event.acc.x + "   " + event.acc.y + "   " + event.acc.z);
+        // console.log(event);
+        this.background.setPosition(event.acc.x * 50, event.acc.y * 50, event.acc.z * 50)
+        // cc.find('Canvas/camera').setPosition(event.acc.x * 50, event.acc.y * 50, event.acc.z * 50)
+        // this.item.active=false;
+    },
+
+
+    // 技能函数 冰封万里 停止所有动画并在5s后恢复
     fnSuspendAction(e) {
         console.log('点击了技能');
+        // 判断是否使用技能
+        if (this.SuspendAction) {
+            console.log('你已经使用此技能');
+            
+            return;
+        }
+        console.log('---------------');
         
         // 变化标识符
-        this.SuspendAction=true;
+        this.SuspendAction = true;
         // 获取
-        let ActionManager=cc.director.getActionManager();
+        let ActionManager = cc.director.getActionManager();
         cc.find('Canvas/FishBox').children.forEach(item => {
             // 暂停鱼的动作
             ActionManager.pauseTarget(item);
             // 5s后恢复动作
-            setTimeout(()=>{
+            setTimeout(() => {
                 // 变化标识符
-                this.SuspendAction=false;
+                this.SuspendAction = false;
                 ActionManager.resumeTarget(item)
-            },conf.SuspendActionNum)
+            }, conf.SuspendActionNum)
         })
     },
 
@@ -121,8 +154,8 @@ cc.Class({
     fnCreateFish(num) {
         // console.log(conf.FishNodePool._pool.length);
         //获取对象池
-        // console.log(num);
-        if (conf[`fishLevel_${num}`].get()) {
+        // console.log(conf[`fishLevel_${num}`].get());
+        if (!conf[`fishLevel_${num}`].size()) {
             let item = cc.instantiate(this.Fish[num - 1]);
             conf[`fishLevel_${num}`].put(item);
         }
@@ -136,7 +169,7 @@ cc.Class({
                 x = DBU.getRandomIntInclusive(0, 1) === 1 ? parseInt(winSize.width / 2 + target.width) : -parseInt(winSize.width / 2 + target.width),
                 y = DBU.getRandomIntInclusive(-winSize.height / 2 + target.height, winSize.height / 2 - target.height);
         } catch (error) {
-            console.log(error, num, '错误');
+            console.log(error,target, num, '错误');
 
         }
 

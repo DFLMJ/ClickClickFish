@@ -42,5 +42,8 @@ window.conf = {
     FishNum: 30,
     // 渔网的对象池
     FishnetNodePool: null,
+    // 渔网数量
     FishnetNum: 20,
+    // 用户信息
+    userInfo:null
 }

@@ -14,7 +14,11 @@ cc.Class({
 
     onLoad() {
         // 启用物理引擎相关功能  
-        cc.director.getPhysicsManager().enabled = true;
+        // cc.director.getPhysicsManager().enabled = true;
+
+    },
+    // 让实例的节点每次请求出来后都能执行的生命回调
+    onEnable() {
         // 监听点击事件
         let touchstartCall = (e) => {
             // console.log('你点中了', conf.fishHit[parseInt(e.target.name)], e.target.name);
@@ -25,12 +29,16 @@ cc.Class({
 
             // 捕获鱼之后就执行的效果
             if (res) {
+
+                // 调用手机振动
+                this.fnVibrateShort()
+
                 // 取消注册监听
                 e.target.off('touchstart', this.touchstartCall, this);
-                
-// 执行屏幕震动动画
-let camera=cc.find('camera'),Vibration=cc.sequence(cc.moveBy(0.2,30,-30),cc.moveBy(0.2,-60,60),cc.moveBy(0.2,30,-50),cc.moveBy(0.2,0,+20))
-camera.runAction(Vibration);
+
+                // 执行屏幕震动动画
+                let camera = cc.find('Canvas/camera'), Vibration = cc.sequence(cc.moveBy(0.2, 30, -30), cc.moveBy(0.2, -60, 60), cc.moveBy(0.2, 30, -50), cc.moveBy(0.2, 0, +20))
+                camera.runAction(Vibration);
                 // 执行消失动作
                 let ActionManager = cc.director.getActionManager();
                 ActionManager.resumeTarget(e.target);
@@ -48,10 +56,19 @@ camera.runAction(Vibration);
         };
         this.node.on('touchstart', touchstartCall, this);
     },
+    // 振动函数
+    fnVibrateShort() {
+        try {
+            let obj = {fail: (e) => {
+                    console.log('调用失败');
+                },
+            }
+            wx.vibrateShort(obj)
+        } catch (error) {
+            console.log('请在微信客户端运行此游戏');
 
-    start() {
+        }
     },
-
 
     // 碰撞开始前
     onCollisionEnter(other, self) {
@@ -68,25 +85,11 @@ camera.runAction(Vibration);
         // 将节点放入对象池
         conf[`fishLevel_${self.node.name}`].put(self.node)
         // conf.FishNodePool.put();
-        console.log('进入回收');
+        // console.log('进入回收');
 
     },
     onCollisionExit: function (other, self) {
-        // if (this.selfX < self.node.x) {
-        //     // console.log('向右');
-        //     if (other.node.name == 'right') {
-        //         // 回收鱼放入对象池方便下次生成
-        //         conf.FishNodePool.put(self.node)
-        // console.log('我已经回收了');
-
-        //     }
-        // } else {
-        //     if (other.node.name == 'left') {
-        //         // 回收鱼放入对象池方便下次生成
-        //         conf.FishNodePool.put(self.node)
-        //     }
-        // }
-        // console.log(other.node.name);
+    
 
         switch (other.node.name) {
             case 'right':

@@ -47,7 +47,12 @@ var DBUtility = {
                   return arr[i];
             };
             return null;
+    },
+    setSprUrl:function(){
+
     }
+
+
 }
 
 
