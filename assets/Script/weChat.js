@@ -7,7 +7,7 @@ var weChat = {
      * @method loginSimplify
      * @returns {Object} 获取的用户信息对象
      */
-    loginSimplify: function () {
+    loginSimplify: function (callBackFn) {
         let exportJson = {};
         let sysInfo = wx.getSystemInfoSync();
         //获取微信界面大小
@@ -26,6 +26,8 @@ var weChat = {
                             wx.setStorageSync('userInfoWx', res.userInfo);
                             exportJson.userInfo = res.userInfo;
                             //此时可进行登录操作
+                            // 加载指定的回调函数
+                            callBackFn(exportJson.userInfo);
                         }
                     });
                 } else {
@@ -51,6 +53,9 @@ var weChat = {
                             wx.setStorageSync('userInfoWx', res.userInfo);
                             exportJson.userInfo = res.userInfo;
                             //此时可进行登录操作
+                            // 加载指定的回调函数
+                            callBackFn(exportJson.userInfo);
+                            // 销毁按钮
                             button.destroy();
                         } else {
                             console.log("用户拒绝授权:", res);

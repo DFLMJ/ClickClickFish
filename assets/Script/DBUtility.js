@@ -48,13 +48,29 @@ var DBUtility = {
             };
             return null;
     },
-    setSprUrl:function(){
-
+     /**
+     * 加载图像URL
+     * @method loadUrl
+     * @param {String} Path 图片地址
+     * @param {Node} Node  需要更改spriteFrame 的节点
+     * @param {String} Type  图片的类型 例如jpg,Png 默认为png
+     */
+    loadUrl:function(Path,Node,Type){
+        cc.loader.load({url:Path ,type:Type|| 'png' }, (e, texture) => {
+            Node.getComponent(cc.Sprite).spriteFrame = new cc.SpriteFrame(texture);
+        });
+    },
+    /**
+     * 加载txt文字
+     * @method loadTxt
+     * @param {String} Txt Txt内容
+     * @param {Node} Node  需要更改的节点
+     */
+    loadTxt:function(Txt,Node){
+        Node.getComponent(cc.Label).string=Txt;
     }
 
 
 }
-
-
 
 module.exports = DBUtility;

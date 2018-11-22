@@ -42,27 +42,14 @@ cc.Class({
 
     onLoad() {
         // 初始化对象池
-
-        // let item = new cc.NodePool();
-        // // item.put(cc.instantiate(this.Fish[1]));
-        // console.log(item);
-
-
+            //初始化鱼的对象池
         for (let index = 1; index <= this.Fish.length; index++) {
-            // console.log(this.Fish[index - 1]);
-
             // 赋值对象池
             conf[`fishLevel_${index}`] = this.fnInitNodePool(conf.fishArr[index - 1], this.Fish[index - 1], conf[`fishLevel_${index}`])
         }
-        // console.log(this.fnGetFishRandomNum(),'op');
-
-
 
         // 初始化渔网的对象池
         conf.FishnetNodePool = this.fnInitNodePool(conf.FishnetNum, this.Fishnet, conf.FishnetNodePool);
-        // 初始化鱼的对象池
-        // conf.FishNodePool = this.fnInitNodePool(conf.FishNum, this.Fish);
-        // console.log(conf.FishnetNodePool);
 
         // 开启物理碰撞
         cc.director.getCollisionManager().enabled = true;
@@ -72,7 +59,7 @@ cc.Class({
         // 开启加速器事件监听
         cc.systemEvent.setAccelerometerEnabled(true);
         // 更改加速度计间隔值
-        cc.systemEvent.setAccelerometerInterval(1/ 60);
+        cc.systemEvent.setAccelerometerInterval(1 / 60);
         // 监听重力感应
         cc.systemEvent.on(cc.SystemEvent.EventType.DEVICEMOTION, this.fnOnDeviceMotion, this)
         // this.item.setPosition(20,400,-0.9);
@@ -80,10 +67,6 @@ cc.Class({
     },
     // 重力感应函数
     fnOnDeviceMotion(event) {
-        // console.log(1);
-
-        // console.log(event.acc.x + "   " + event.acc.y + "   " + event.acc.z);
-        // console.log(event);
         this.background.setPosition(event.acc.x * 50, event.acc.y * 50, event.acc.z * 50)
         // cc.find('Canvas/camera').setPosition(event.acc.x * 50, event.acc.y * 50, event.acc.z * 50)
         // this.item.active=false;
@@ -96,11 +79,11 @@ cc.Class({
         // 判断是否使用技能
         if (this.SuspendAction) {
             console.log('你已经使用此技能');
-            
+
             return;
         }
         console.log('---------------');
-        
+
         // 变化标识符
         this.SuspendAction = true;
         // 获取
@@ -154,28 +137,22 @@ cc.Class({
     fnCreateFish(num) {
         // console.log(conf.FishNodePool._pool.length);
         //获取对象池
-        // console.log(conf[`fishLevel_${num}`].get());
         if (!conf[`fishLevel_${num}`].size()) {
             let item = cc.instantiate(this.Fish[num - 1]);
             conf[`fishLevel_${num}`].put(item);
         }
 
-        try {
-            var target = conf[`fishLevel_${num}`].get(),
-                speed = DBU.getRandFload(15, 25),
-                // 获取设备屏幕大小
-                winSize = cc.winSize,
-                // 初始化预置点坐标
-                x = DBU.getRandomIntInclusive(0, 1) === 1 ? parseInt(winSize.width / 2 + target.width) : -parseInt(winSize.width / 2 + target.width),
-                y = DBU.getRandomIntInclusive(-winSize.height / 2 + target.height, winSize.height / 2 - target.height);
-        } catch (error) {
-            console.log(error,target, num, '错误');
-
-        }
+        var target = conf[`fishLevel_${num}`].get(),
+            speed = DBU.getRandFload(15, 25),
+            // 获取设备屏幕大小
+            winSize = cc.winSize,
+            // 初始化预置点坐标
+            x = DBU.getRandomIntInclusive(0, 1) === 1 ? parseInt(winSize.width / 2 + target.width) : -parseInt(winSize.width / 2 + target.width),
+            y = DBU.getRandomIntInclusive(-winSize.height / 2 + target.height, winSize.height / 2 - target.height);
 
 
         // 设置鱼的游动动画速度
-        target.getChildByName('fish').getComponent(sp.Skeleton).timeScale = speed * 0.12
+        target.getChildByName('item').getChildByName('fish').getComponent(sp.Skeleton).timeScale = speed * 0.05
         // 给预置点赋值新的初始坐标属性
         target.inX = x;
         // 给予父级

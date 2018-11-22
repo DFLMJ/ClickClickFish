@@ -26,6 +26,17 @@ cc.Class({
             // 计算是否捕获
             let res = DBU.getRandomProb([0, 1], [1 - conf.fishHit[parseInt(e.target.name)], conf.fishHit[parseInt(e.target.name)]]);
             console.log(res, '你点中了', conf.fishHit[parseInt(e.target.name)], e.target.name);
+            // console.log(e);
+            // 获取渔网
+            let Fishnet= conf.FishnetNodePool.get();
+            Fishnet.parent=cc.find('Canvas');
+            Fishnet.setPosition(e.target.getPosition());
+            let animation = Fishnet.getComponent(cc.Animation),callAni=()=>{
+                conf.FishnetNodePool.put(Fishnet);
+            animation.off('finished',callAni)
+
+            };
+            animation.on('finished',callAni)
 
             // 捕获鱼之后就执行的效果
             if (res) {

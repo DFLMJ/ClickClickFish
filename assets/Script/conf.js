@@ -39,7 +39,7 @@ window.conf = {
     // 普通鱼的
     FishNodePool: null,
     // 鱼同时出现在屏幕内的数量
-    FishNum: 30,
+    FishNum: 25,
     // 渔网的对象池
     FishnetNodePool: null,
     // 渔网数量

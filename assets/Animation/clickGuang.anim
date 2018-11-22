@@ -1,0 +1,55 @@
+{
+  "__type__": "cc.AnimationClip",
+  "_name": "clickGuang",
+  "_objFlags": 0,
+  "_rawFiles": null,
+  "_duration": 0.43333333333333335,
+  "sample": 60,
+  "speed": 1,
+  "wrapMode": "0",
+  "curveData": {
+    "comps": {
+      "cc.Sprite": {
+        "spriteFrame": [
+          {
+            "frame": 0,
+            "value": {
+              "__uuid__": "144ddc3c-6df8-48f0-b2ab-37f2adf814ae"
+            }
+          },
+          {
+            "frame": 0.08333333333333333,
+            "value": {
+              "__uuid__": "785c2e7c-2738-4679-91c1-7711e7be4558"
+            }
+          },
+          {
+            "frame": 0.16666666666666666,
+            "value": {
+              "__uuid__": "f00715d1-259d-460c-b7f6-0edcc5eeb95d"
+            }
+          },
+          {
+            "frame": 0.25,
+            "value": {
+              "__uuid__": "3207007e-0b44-44a6-9c87-4bd3b9940b55"
+            }
+          },
+          {
+            "frame": 0.3333333333333333,
+            "value": {
+              "__uuid__": "71a46cc3-0d4c-450a-ab66-b718cf0e8d0c"
+            }
+          },
+          {
+            "frame": 0.4166666666666667,
+            "value": {
+              "__uuid__": "b3074422-4a32-4caa-af55-860703a36929"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "events": []
+}
