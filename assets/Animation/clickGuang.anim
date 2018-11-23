@@ -3,7 +3,7 @@
   "_name": "clickGuang",
   "_objFlags": 0,
   "_rawFiles": null,
-  "_duration": 0.43333333333333335,
+  "_duration": 0.5833333333333334,
   "sample": 60,
   "speed": 1,
   "wrapMode": "0",
@@ -49,6 +49,18 @@
           }
         ]
       }
+    },
+    "props": {
+      "opacity": [
+        {
+          "frame": 0,
+          "value": 255
+        },
+        {
+          "frame": 0.5833333333333334,
+          "value": 0
+        }
+      ]
     }
   },
   "events": []

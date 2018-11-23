@@ -7,7 +7,7 @@
 // Learn life-cycle callbacks:
 //  - [Chinese] http://docs.cocos.com/creator/manual/zh/scripting/life-cycle-callbacks.html
 //  - [English] http://www.cocos2d-x.org/docs/creator/en/scripting/life-cycle-callbacks.html
-let DBU = require('DBUtility');
+let weChat = require('weChat'), DBU = require('DBUtility');
 cc.Class({
     extends: cc.Component,
 
@@ -32,38 +32,170 @@ cc.Class({
             type: cc.Node,
             displayName: '测试点'
         },
+        transpondBtn: {
+            default: null,
+            type: cc.Node,
+            displayName: '分享按钮'
+        },
+        closeBtn: {
+            default: null,
+            type: cc.Node,
+            displayName: '关闭按钮'
+        },
+        bet1Btn: {
+            default: null,
+            type: cc.Node,
+            displayName: '下注1'
+        },
+
+        bet2Btn: {
+            default: null,
+            type: cc.Node,
+            displayName: '下注2'
+        },
+        bet3Btn: {
+            default: null,
+            type: cc.Node,
+            displayName: '下注3'
+        },
+        bet4Btn: {
+            default: null,
+            type: cc.Node,
+            displayName: '下注4'
+        },
+        bet5Btn: {
+            default: null,
+            type: cc.Node,
+            displayName: '下注5'
+        },
+        glodNum: {
+            default: null,
+            type: cc.Node,
+            displayName: '金币'
+        },
+        wallet: {
+            default: null,
+            type: cc.Node,
+            displayName: '红包'
+        },
+        taskFish: {
+            default: null,
+            type: cc.Node,
+            displayName: '当前任务鱼UI'
+        },
+        taskSumNum: {
+            default: null,
+            type: cc.Node,
+            displayName: '当前任务个数'
+        },
+        taskCompleted: {
+            default: null,
+            type: cc.Node,
+            displayName: '已完成任务个数'
+        },
+        headPortraits: {
+            default: null,
+            type: cc.Node,
+            displayName: '用户头像'
+        },
+        backBtn: {
+            default: null,
+            type: cc.Node,
+            displayName: '返回按钮'
+        },
+
         timeFish: 0,
         // 是否使用冰封万里的技能
-        SuspendAction: false
+        SuspendAction: false,
 
     },
 
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
+        console.log(cc.sys.browserType, '这是游览器类型');
+
+        // 初始化节点
+        // var node = new cc.Node('Sprite');
+        // node.name='FishBox';
+        // node.width=640;
+        // node.height=1136;
+        // var sp = node.addComponent(cc.Sprite);
+
+        // sp.spriteFrame = this.sprite;
+        // node.parent = this.node;
+
+        conf.yieldFish = true;
+
         // 初始化对象池
-            //初始化鱼的对象池
+        //初始化鱼的对象池
         for (let index = 1; index <= this.Fish.length; index++) {
             // 赋值对象池
             conf[`fishLevel_${index}`] = this.fnInitNodePool(conf.fishArr[index - 1], this.Fish[index - 1], conf[`fishLevel_${index}`])
         }
-
         // 初始化渔网的对象池
         conf.FishnetNodePool = this.fnInitNodePool(conf.FishnetNum, this.Fishnet, conf.FishnetNodePool);
 
         // 开启物理碰撞
         cc.director.getCollisionManager().enabled = true;
-
         // 开启
         // cc.director.getCollisionManager().enabledDebugDraw=true;
         // 开启加速器事件监听
         cc.systemEvent.setAccelerometerEnabled(true);
         // 更改加速度计间隔值
         cc.systemEvent.setAccelerometerInterval(1 / 60);
-        // 监听重力感应
-        cc.systemEvent.on(cc.SystemEvent.EventType.DEVICEMOTION, this.fnOnDeviceMotion, this)
-        // this.item.setPosition(20,400,-0.9);
+        let self = this;
+        // 判断是否为微信平台 如果是微信平台采用微信的重力感应
+        if (cc.sys.browserType == 'wechatgame') {
+            // 修改监听类型适配 ui 60帧
+            weChat.fnStartAccelerometer('game')
+            weChat.fnOnAccelerometerChange((e, node) => {
+                this.background.setPosition(e.x * 50, e.y * 50, e.z * 50)
+            });
+        } else {
+            // 监听重力感应
+            cc.systemEvent.on(cc.SystemEvent.EventType.DEVICEMOTION, this.fnOnDeviceMotion, this);
+        }
 
+
+
+        // 监听主动分享
+        this.transpondBtn.on('touchstart', () => {
+            weChat.fnTranspond('转发就能获取金币噢');
+        })
+        // 预加载游戏界面
+        cc.director.preloadScene('Play', () => {
+            console.log('开始界面预加载完成');
+        })
+        // 监听返回按钮
+        this.backBtn.on('touchstart', () => {
+            // 取消微信监听
+            weChat.fnStopAccelerometer()
+
+            conf.yieldFish = false;
+            cc.director.getCollisionManager().enabled = false;
+            // 清空节点
+            cc.find('Canvas/FishBox').children.forEach(item => {
+                item.destroy();
+            })
+            // 清空对象池
+            for (let index = 1; index <= this.Fish.length; index++) {
+                conf[`fishLevel_${index}`].clear();
+            }
+
+            // conf.FishnetNodePool.clear();
+
+
+            cc.director.loadScene('Play')
+        })
+        // 更换用户头像
+        try {
+            DBU.loadUrl(conf.userInfo.avatarUrl, this.headPortraits)
+
+        } catch (error) {
+            console.log('请在微信开发端中打开');
+
+        }
     },
     // 重力感应函数
     fnOnDeviceMotion(event) {
@@ -183,16 +315,12 @@ cc.Class({
             cc.director.getActionManager().pauseTarget(target);
         }
 
-
-
-
     },
     update(dt) {
         this.timeFish += dt;
         // console.log(dt);
-
-        let length = cc.find('Canvas/FishBox').children.length;
-        if (length < conf.FishNum) {
+        let FishBox = cc.find('Canvas/FishBox').children;
+        if (FishBox == null ? 0 : FishBox.length < conf.FishNum && conf.yieldFish) {
 
             // console.log('没有小鱼了')
             if (this.timeFish > 0.5) {
@@ -201,6 +329,8 @@ cc.Class({
 
             }
 
+
         }
+
     }
 });

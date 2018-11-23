@@ -1,6 +1,6 @@
 window.conf = {
     // 金币
-    gold: 0,
+    gold: 600,
     userName: null,
     // 每种鱼的对象池条数 共计21种鱼
     fishArr: [17, 17, 12, 12, 10, 10, 6, 6, 6, 6, 4, 4, 4, 4, 3, 3, 2, 2, 1, 1, 1],
@@ -45,5 +45,7 @@ window.conf = {
     // 渔网数量
     FishnetNum: 20,
     // 用户信息
-    userInfo:null
+    userInfo:null,
+    // 是否生成鱼的标记
+    yieldFish:true
 }

@@ -76,7 +76,83 @@ var weChat = {
                 wx.login() //重新登录
             }
         })
+    },
+    /**
+     * 监听微信被动转发
+     * @method fnOnTranspond
+     * @param {String} Txt Txt内容
+     */
+    fnOnTranspond(Txt) {
+        console.log(Txt, '点击了');
+        // 开启转发按钮
+        wx.showShareMenu({
+            withShareTicket: true,
+            success: () => console.log('开启转发按钮成功'),
+            fail: () => console.log('开启转发按钮失败'),
+
+        })
+
+        // 监听被动转发
+        wx.onShareAppMessage(function () {
+            return {
+                title: Txt,
+                imageUrl: canvas.toTempFilePathSync({
+                    destWidth: 640,
+                    destHeight: 1136
+                })
+            }
+        })
+    },
+    /**
+     * 监听微信主动转发
+     * @method fnTranspond
+     * @param {String} Txt Txt内容
+     */
+    fnTranspond(Txt) {
+        console.log(Txt, '点击了主动转发');
+
+
+        // 监听被动转发
+        wx.shareAppMessage((function () {
+            return {
+                title: Txt,
+                imageUrl: canvas.toTempFilePath({
+                    x: 10,
+                    y: 10,
+                    width: 200,
+                    height: 150,
+                    destWidth: 400,
+                    destHeight: 300,
+                    success: (res) => {
+
+                        return res.tempFilePath;
+
+                    }
+                })
+            }
+        }))
+    },
+    // 监听微信加速计
+    fnStartAccelerometer(accClass) {
+        wx.startAccelerometer(
+            {
+                interval: accClass, success: () => console.log('监听微信加速计成功')
+            }
+        )
+    },
+    // 取消监听微信加速计
+    fnStopAccelerometer() {
+        wx.stopAccelerometer(
+            {
+                success: () => console.log('取消监听微信加速计成功')
+            }
+        )
+    },
+    // 监听加速度数据事件
+    fnOnAccelerometerChange(callBackFn) {
+        wx.onAccelerometerChange(callBackFn)
     }
+
 }
 
 module.exports = weChat;

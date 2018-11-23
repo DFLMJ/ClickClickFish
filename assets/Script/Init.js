@@ -1,4 +1,4 @@
-let weChat = require('weChat'), DBUtility = require('DBUtility');
+let weChat = require('weChat'), DBU = require('DBUtility');
 cc.Class({
     extends: cc.Component,
 
@@ -36,22 +36,34 @@ cc.Class({
         // 启用物理引擎相关功能  
         cc.director.getPhysicsManager().enabled = true;
         this.linearVelocity = 80;
-
+        // 监听被动分享
+        weChat.fnOnTranspond('转发就能获取金币噢');
+        let self = this;
+        // 载入用户信息
+        function loadInfo() {
+            // 载入用户头像
+            DBU.loadUrl(conf.userInfo.avatarUrl, self.headPortraits);
+            // 载入用户姓名
+            DBU.loadTxt(conf.userInfo.nickName, self.userName);
+        }
         //确保在非微信环境下运行时不会报错
         try {
             // 获取用户信息 并储存到缓存中 可在全局变量中获取到
-            weChat.loginSimplify(
-                (info) => {
-                    // 储存用户信息到全局变量中
-                    conf.userInfo = info;
-                    // 载入用户头像
-                    DBUtility.loadUrl(conf.userInfo.avatarUrl, this.headPortraits);
-                    // 载入用户姓名
-                    DBUtility.loadTxt(conf.userInfo.nickName, this.userName);
-                }
-            );
+            if (wx.getStorageSync('userInfoWx')) {
+                conf.userInfo = wx.getStorageSync('userInfoWx')
+                loadInfo()
+            } else {
+                weChat.loginSimplify(
+                    (info) => {
+                        // 储存用户信息到全局变量中
+                        conf.userInfo = info;
+                        loadInfo();
+                    }
+                );
+            }
+
         } catch (error) {
-            console.log('请在微信开发者工具打开');
+            console.log('请在微信开发者工具打开', error);
         }
 
         // try {

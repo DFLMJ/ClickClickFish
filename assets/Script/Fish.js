@@ -28,15 +28,24 @@ cc.Class({
             console.log(res, '你点中了', conf.fishHit[parseInt(e.target.name)], e.target.name);
             // console.log(e);
             // 获取渔网
-            let Fishnet= conf.FishnetNodePool.get();
-            Fishnet.parent=cc.find('Canvas');
+            let Fishnet= cc.find('Canvas/Fishnet');
             Fishnet.setPosition(e.target.getPosition());
-            let animation = Fishnet.getComponent(cc.Animation),callAni=()=>{
-                conf.FishnetNodePool.put(Fishnet);
-            animation.off('finished',callAni)
+            Fishnet.getComponent(cc.Animation).play('clickGuang');
 
-            };
-            animation.on('finished',callAni)
+            // let animation = Fishnet.getComponent(cc.Animation),callAni= function(){
+            // //     setTimeout(()=>{
+                    
+            //     console.log('渔网动画执行完毕');
+          
+            // // },100)
+            // animation.off('finished',callAni)                
+            // // console.log(this,3);
+            
+            // conf.FishnetNodePool.put(Fishnet);
+            // // this.destroy()
+            // };
+            // animation.on('finished',callAni)
+// console.log(Fishnet,89);
 
             // 捕获鱼之后就执行的效果
             if (res) {
@@ -76,7 +85,7 @@ cc.Class({
             }
             wx.vibrateShort(obj)
         } catch (error) {
-            console.log('请在微信客户端运行此游戏');
+            // console.log('请在微信客户端运行此游戏');
 
         }
     },
@@ -91,12 +100,15 @@ cc.Class({
     },
     // 回收节点
     put: function (self) {
+        // 判断是否返回大厅而停止回收
+        if (conf.yieldFish) {
         // 停止这个节点上的所有动画
         self.node.stopAllActions();
         // 将节点放入对象池
         conf[`fishLevel_${self.node.name}`].put(self.node)
         // conf.FishNodePool.put();
-        // console.log('进入回收');
+        console.log('进入回收');
+    }
 
     },
     onCollisionExit: function (other, self) {
