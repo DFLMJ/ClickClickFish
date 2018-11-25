@@ -36,8 +36,14 @@ cc.Class({
         // 启用物理引擎相关功能  
         cc.director.getPhysicsManager().enabled = true;
         this.linearVelocity = 80;
+        try {
         // 监听被动分享
-        weChat.fnOnTranspond('转发就能获取金币噢');
+        weChat.fnOnTranspond('转发就能获取金币噢');    
+        } catch (error) {
+            console.log('请在微信开发者工具打开', error);
+            
+        }
+        
         let self = this;
         // 载入用户信息
         function loadInfo() {

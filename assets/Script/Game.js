@@ -169,8 +169,15 @@ cc.Class({
         })
         // 监听返回按钮
         this.backBtn.on('touchstart', () => {
+
+            try {
             // 取消微信监听
-            weChat.fnStopAccelerometer()
+            weChat.fnStopAccelerometer()    
+            } catch (error) {
+                console.log('请在微信客服端打开');
+                
+            }
+            
 
             conf.yieldFish = false;
             cc.director.getCollisionManager().enabled = false;
