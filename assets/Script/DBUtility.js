@@ -79,11 +79,11 @@ var DBUtility = {
      * @returns {Node} 返回该节点
      */
     fnZoom(ccNode) {
-        let num = ccNode.scaleX == 1 ? 0 : 1, fade = ccNode.opacity == 255 ? 0 : 255;
-        let ani = cc.spawn(cc.scaleTo(0.3, num, num), cc.fadeTo(0.3, fade))
-        ccNode.runActive(ani);
+        let num = ccNode.scaleX == 1 ? 0 : 1, fade = ccNode.opacity == 255 ? 255 : 0;
+        let ani = cc.spawn(cc.scaleTo(0.2, num, num), cc.fadeTo(0.2, fade))
+        ccNode.runAction(ani);
 
-        return node;
+        return ccNode;
     },
     /**
      * 提示语窗口
@@ -91,9 +91,13 @@ var DBUtility = {
      * @param {String} Txt Txt内容
      */
     fnShowTips(Txt) {
-        let str = cc.find('Tips/txt').getComponent(cc.Label).string = Txt;
-        let ani = cc.sequence(cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1)), cc.delayTime(1), cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0)))
-        str.runActive(ani);
+        // 获取提示框节点
+        let str = cc.find('Tips/txt');
+        // 更改文字
+        this.loadTxt(Txt,str);
+        let ani = cc.sequence(cc.spawn(cc.fadeIn(0.3), cc.scaleTo(0.3, 1)), cc.delayTime(2), cc.spawn(cc.fadeOut(0.3), cc.scaleTo(0.3, 0)));
+        // 执行动作
+        str.parent.runAction(ani);
     },
     
 

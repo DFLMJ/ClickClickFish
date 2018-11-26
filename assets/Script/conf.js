@@ -33,6 +33,10 @@ window.conf = {
     fishLevel_20: null,
     fishLevel_21: null,
 
+    // 金币对象池数
+    goldPoolNum:60,
+    // 金币对象池
+    goldPool:null,
 
     // 冰封万里技能的持续时间
     SuspendActionNum: 5000,
@@ -46,6 +50,12 @@ window.conf = {
     FishnetNum: 20,
     // 用户信息
     userInfo:null,
+    // 每轮消耗金币
+    expendGold:100,
+    userNetworkdata:{
+        gold:1000000,
+        sumGold:0
+    },
     // 是否生成鱼的标记
     yieldFish:true
 }

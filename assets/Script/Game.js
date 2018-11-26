@@ -33,7 +33,7 @@ cc.Class({
             displayName: '测试点'
         },
         transpondBtn: {
-            default: null,
+            default: [],
             type: cc.Node,
             displayName: '分享按钮'
         },
@@ -103,6 +103,26 @@ cc.Class({
             type: cc.Node,
             displayName: '返回按钮'
         },
+        noInput: {
+            default: null,
+            type: cc.Node,
+            displayName: 'UI遮盖层'
+        },
+        getGold: {
+            default: null,
+            type: cc.Node,
+            displayName: '获取金币的窗口'
+        },
+        videoBtn: {
+            default: null,
+            type: cc.Node,
+            displayName: '视频广告按钮'
+        },
+        goldPrefab:{
+            default: null,
+            type: cc.Prefab,
+            displayName: '金币预制资源'
+        },
 
         timeFish: 0,
         // 是否使用冰封万里的技能
@@ -113,21 +133,14 @@ cc.Class({
     // LIFE-CYCLE CALLBACKS:
 
     onLoad() {
+        DBU.fnShowTips('这是新的提示哦');
         console.log(cc.sys.browserType, '这是游览器类型');
-
-        // 初始化节点
-        // var node = new cc.Node('Sprite');
-        // node.name='FishBox';
-        // node.width=640;
-        // node.height=1136;
-        // var sp = node.addComponent(cc.Sprite);
-
-        // sp.spriteFrame = this.sprite;
-        // node.parent = this.node;
-
+        // 关闭fps
+        cc.director.setDisplayStats(false)
+        // 生成小鱼标识
         conf.yieldFish = true;
 
-        // 初始化对象池
+
         //初始化鱼的对象池
         for (let index = 1; index <= this.Fish.length; index++) {
             // 赋值对象池
@@ -135,6 +148,8 @@ cc.Class({
         }
         // 初始化渔网的对象池
         conf.FishnetNodePool = this.fnInitNodePool(conf.FishnetNum, this.Fishnet, conf.FishnetNodePool);
+        // 初始化金币的对象池
+        conf.goldPool= this.fnInitNodePool(conf.goldPoolNum, this.goldPrefab, conf.goldPool);
 
         // 开启物理碰撞
         cc.director.getCollisionManager().enabled = true;
@@ -159,10 +174,8 @@ cc.Class({
 
 
 
-        // 监听主动分享
-        this.transpondBtn.on('touchstart', () => {
-            weChat.fnTranspond('转发就能获取金币噢');
-        })
+
+
         // 预加载游戏界面
         cc.director.preloadScene('Play', () => {
             console.log('开始界面预加载完成');
@@ -171,13 +184,13 @@ cc.Class({
         this.backBtn.on('touchstart', () => {
 
             try {
-            // 取消微信监听
-            weChat.fnStopAccelerometer()    
+                // 取消微信监听
+                weChat.fnStopAccelerometer()
             } catch (error) {
                 console.log('请在微信客服端打开');
-                
+
             }
-            
+
 
             conf.yieldFish = false;
             cc.director.getCollisionManager().enabled = false;
@@ -203,6 +216,51 @@ cc.Class({
             console.log('请在微信开发端中打开');
 
         }
+
+        // 监听主动分享
+        this.transpondBtn.forEach(
+            item => {
+                item.on('touchstart', () => {
+                    weChat.fnTranspond('转发就能获取金币噢');
+                });
+            }
+        )
+
+        let addvideo = e => {
+            this.noInput.active = false;
+            DBU.fnZoom(this.getGold);
+        }
+        // 监听观看视频 ,暂时没有视频所以会取消视频
+        this.videoBtn.on('touchstart', addvideo)
+        // 关闭看视频获取金币窗口
+        this.closeBtn.on('touchstart', addvideo)
+
+        // 监听金币消耗按钮
+        this.bet1Btn.on('touchstart', e => {
+            conf.expendGold = 100;
+            DBU.fnShowTips('变换成功！');
+
+        });
+        this.bet2Btn.on('touchstart', e => {
+            conf.expendGold = 200;
+            DBU.fnShowTips('变换成功！');
+
+        });
+        this.bet3Btn.on('touchstart', e => {
+            conf.expendGold = 300;
+            DBU.fnShowTips('变换成功！');
+
+        });
+        this.bet4Btn.on('touchstart', e => {
+            conf.expendGold = 400;
+            DBU.fnShowTips('变换成功！');
+
+        });
+        this.bet5Btn.on('touchstart', e => {
+            conf.expendGold = 500;
+            DBU.fnShowTips('变换成功！');
+
+        });
     },
     // 重力感应函数
     fnOnDeviceMotion(event) {
@@ -256,10 +314,6 @@ cc.Class({
         // 返回对象池
         return nodes;
     },
-
-    start() {
-        cc.director.setDisplayStats(false)
-    },
     fnClickAnimation(e) {
         console.log('我发射了渔网');
     },
@@ -282,6 +336,7 @@ cc.Class({
         }
 
         var target = conf[`fishLevel_${num}`].get(),
+            // speed =num==1||num==2||num==3?10:num *45 / DBU.getRandFload(15, 25),
             speed = DBU.getRandFload(15, 25),
             // 获取设备屏幕大小
             winSize = cc.winSize,
@@ -308,8 +363,9 @@ cc.Class({
         // console.log('起点', target.getPositionX(), target.getPositionY());
         // console.log('终点', x, c, y);
         // 创建动画
-        let ay = DBU.getRandomIntInclusive(-winSize.height / 2 + target.height, winSize.height / 2 - target.height);
-        target.mjAct = cc.sequence(cc.moveTo(speed, c, ay), cc.callFunc(function () {
+        let ay = DBU.getRandomIntInclusive(-winSize.height / 2 + target.height, winSize.height / 2 - target.height),moveNum=num==1||num==2||num==3?10:num *45 / DBU.getRandFload(15, 25);
+
+        target.mjAct = cc.sequence(cc.moveTo( (Math.round( moveNum * 100) / 100), c, ay), cc.callFunc(function () {
             // console.log('执行完毕');
 
         }, this));
@@ -321,6 +377,7 @@ cc.Class({
         if (this.SuspendAction) {
             cc.director.getActionManager().pauseTarget(target);
         }
+
 
     },
     update(dt) {
