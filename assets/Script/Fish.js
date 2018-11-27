@@ -64,14 +64,12 @@ cc.Class({
 
             if (res) {
                 // 执行金币动画
-                let goldArr = [], gold = cc.find('Canvas/goldBox'), goldBox = gold.getChildByName('gold'), yNum = 0;
+                let goldArr = [], gold = cc.find('Canvas/goldBox'), goldBox = gold.getChildByName('gold'), yNum = 0, goldPosi = cc.find('Canvas/Top/img/gold');
                 gold.setPosition(e.target.getPosition());
                 gold.getChildByName('str').runAction(cc.fadeIn(0.3));
                 DBU.loadTxt('+' + conf.expendGold * conf.fishAward[e.target.name - 1], gold.getChildByName('str'));
-                conf.userNetworkdata.gold+=conf.expendGold * conf.fishAward[e.target.name - 1];
+                DBU.loadTxt(conf.userNetworkdata.gold += conf.expendGold * conf.fishAward[e.target.name - 1], goldPosi);
                 for (let i = 0; i < (e.target.name * 2); i++) {
-                    console.log('ddd', i);
-
                     goldArr.push(conf.goldPool.get());
                     goldArr[i].parent = goldBox;
                     // if (i==0) {
@@ -82,6 +80,8 @@ cc.Class({
                     //     goldArr[i].setPosition(goldArr[goldArr.length - 2].getPositionX() + goldArr[i].width, 0);
 
                     // }
+                    goldArr[i].setPosition(0, 0);
+
                     let y = yNum * (goldArr[i].height + 10), x = (i % 5) * goldArr[i].width - goldBox.width / 2;
                     // goldArr[i].setPosition((i + 1) * goldArr[i].width - goldBox.width / 2, y);
                     goldArr[i].setPosition(x, y);
@@ -98,10 +98,21 @@ cc.Class({
                     // aniTg.getAnimationState('gold').on('finished',callAniTg);
                     goldArr[i].getComponent(cc.Animation).play('gold');
                     goldArr[i].getComponent(cc.Animation).getAnimationState('gold').on('finished', e => {
-                        conf.goldPool.put(goldArr[i]);
-                        gold.getChildByName('str').runAction(cc.fadeOut(0.3));
+                        goldArr[i].runAction(cc.sequence(cc.moveTo(1, goldPosi.getPositionX(), goldPosi.parent.parent.getPositionY()),cc.callFunc(() => {
+
+                            conf.goldPool.put(goldArr[i]);
+                            goldArr[i].stopAllActions();
+
+                        })));
+                        console.log(goldPosi.getPositionX(), goldPosi.parent.parent.getPositionY());
 
                     }, this)
+
+                    // goldArr[i].getComponent(cc.Animation).getAnimationState('gold').on('finished', e => {
+                    //         conf.goldPool.put(goldArr[i]);
+                    //     console.log(goldPosi.getPositionX(), goldPosi.parent.parent.getPositionY());
+
+                    // }, this)
 
 
                     console.log(goldArr[i].getPosition(), goldArr.length, goldArr[goldArr.length - 1].getPositionX() + goldArr[i].width);
